@@ -54,6 +54,25 @@ class LandingPage extends Component{
 		})
 	}
 
+	updateRowValue = (item, conversionRate) => {
+		for (let i = 0; i < item.length; i++) {
+			if (item[i].amount) {
+				item[i].amount = parseInt(item[i].amount) * conversionRate
+			}
+		}
+		return item;
+	}
+
+	updateAllRowValue = async (conversionRate) => {
+		const {cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities} = data;
+		this.updateRowValue(cashAndInvestments, conversionRate)
+		this.updateRowValue(longTermAssets, conversionRate)
+		this.updateRowValue(shortTermLiabilities, conversionRate)
+		this.updateRowValue(longTermLiabilities, conversionRate)
+		const response = await services.calculateConversionValue(data)
+		this.updateStateValue(response);
+	}
+
 	handleDropdownChange = async (e) => {
 		if (this.state.updatedCurrency !== "") {
 			this.setState({ initialCurrency: this.state.updatedCurrency })

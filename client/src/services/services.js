@@ -47,7 +47,26 @@ export default {
 		} else {
 			return "Something went wrong"
 		}
-	}
+	},
+
+	async calculateConversionValue(data) {
+		const requestOption = {
+			method:'post',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin' : '*',
+				'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+			},
+			body: JSON.stringify({ "updatedData": data }),
+		}
+		const callResponse = await fetch(BASE_URL + '/currencyconversion', requestOption)
+		if (callResponse.ok) {
+			const data = await callResponse.json()
+			return data;
+		} else {
+			return "Something went wrong"
+		}
+	},
 }
 
 
