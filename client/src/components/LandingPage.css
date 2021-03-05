@@ -1,0 +1,36 @@
+.body_wrapper {
+  width: 80%;
+  margin: 10px auto;
+}
+
+.headerContainer {
+  display: flex;
+}
+
+.custom-select select, .amount {
+  width: 200px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+.lists li,
+.liabilitiesLists li {
+  list-style: none;
+  display: flex;
+  flex: 1;
+  padding: 2px 0;
+}
+
+.liabilitiesLists li .empty {
+  flex: 0.2;
+}
+
+.category, .monthlyPayments {
+  flex: 1;
+}
+
+.dollarSign {
+  width: 15px;
+  height: 40px;
+  margin-top: 12px;
+}

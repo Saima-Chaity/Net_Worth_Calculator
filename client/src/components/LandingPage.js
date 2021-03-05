@@ -4,6 +4,7 @@ import LiabilitiesTable from './LiabilitiesTable';
 import services from '../services/services';
 import data from '../constants/data.json';
 import { currency_options } from '../constants/CurrencyOptions';
+import './LandingPage.css'
 
 class LandingPage extends Component{
 	constructor(props) {
@@ -35,7 +36,6 @@ class LandingPage extends Component{
 	}
 
 	handleKeyUp = async () => {
-		console.log(data)
 		const response = await services.calculateUpdatedValue(this.state.inputValue, this.state.prevValue, this.state.currentType)
 		this.updateStateValue(response);
 	}
@@ -87,7 +87,7 @@ class LandingPage extends Component{
 
   render(){
     return(
-			<div>
+			<div className="body_wrapper">
 				<span>Tracking your Networth</span>
 				<div className="custom-select">
 					<select value={this.state.currency} onChange={this.handleDropdownChange}>
@@ -116,6 +116,7 @@ class LandingPage extends Component{
 					totalLiabilities={this.state.liabilities}
 					onInputValueChange={this.onInputChange}
 				/>
+				<hr/>	
 			</div>
 		)
   }
