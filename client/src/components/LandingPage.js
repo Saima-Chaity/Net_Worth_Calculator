@@ -3,6 +3,7 @@ import AssetsTable from './AssetsTable';
 import LiabilitiesTable from './LiabilitiesTable';
 import services from '../services/services';
 import data from '../constants/data.json';
+import { currency_options } from '../constants/CurrencyOptions';
 
 class LandingPage extends Component{
 	constructor(props) {
@@ -13,7 +14,10 @@ class LandingPage extends Component{
 			liabilities: 0,
 			inputValue: 0,
 			prevValue: 0,
-			currentType: ""
+			currentType: "",
+			filteredList: currency_options,
+			initialCurrency: currency_options[0]['value'],
+			updatedCurrency: "",
 		}
 	}
 
@@ -31,6 +35,7 @@ class LandingPage extends Component{
 	}
 
 	handleKeyUp = async () => {
+		console.log(data)
 		const response = await services.calculateUpdatedValue(this.state.inputValue, this.state.prevValue, this.state.currentType)
 		this.updateStateValue(response);
 	}
@@ -49,10 +54,29 @@ class LandingPage extends Component{
 		})
 	}
 
+	handleDropdownChange = async (e) => {
+		if (this.state.updatedCurrency !== "") {
+			this.setState({ initialCurrency: this.state.updatedCurrency })
+		}
+		this.setState({ updatedCurrency: e.target.value }, async () => {
+			const response = await services.getConversionRate(this.state.initialCurrency, this.state.updatedCurrency)
+		})
+	}
+
   render(){
     return(
 			<div>
 				<span>Tracking your Networth</span>
+				<div className="custom-select">
+					<select value={this.state.currency} onChange={this.handleDropdownChange}>
+						{this.state.filteredList.map((option, index) => (
+							<option key={index} value={option.value}>
+								{option.value}
+							</option>
+						))}
+					</select>
+				</div>
+				<hr/>
 				<div className="headerContainer">
 					<span className="category">Net Worth</span>
 					<span className="amount">${this.state.netWorthValue}</span>

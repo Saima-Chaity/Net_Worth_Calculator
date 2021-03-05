@@ -41,4 +41,14 @@ router.post('/calculate', (req, res) => {
 	res.status(201).send({"data": {"assets": this.totalAssets, "liabilities": this.totalLiabilities, "netWorth": this.netWorth}})
 });
 
+router.post('/currencyconversion', (req, res) => {
+	const { updatedData } = req.body
+	const { cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities } = updatedData;
+	this.totalAssets = calculateTotal(cashAndInvestments, longTermAssets);
+	this.totalLiabilities = calculateTotal(shortTermLiabilities, longTermLiabilities);
+	this.netWorth = this.totalAssets - this.totalLiabilities
+	res.setHeader('Content-Type', 'application/json');
+	res.status(201).send({"data": {"assets": this.totalAssets, "liabilities": this.totalLiabilities, "netWorth": this.netWorth}})
+});
+
 module.exports = router;
