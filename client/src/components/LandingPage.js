@@ -79,6 +79,9 @@ class LandingPage extends Component{
 		}
 		this.setState({ updatedCurrency: e.target.value }, async () => {
 			const response = await services.getConversionRate(this.state.initialCurrency, this.state.updatedCurrency)
+			if (response) {
+				this.updateAllRowValue(response.rates[this.state.updatedCurrency]);
+			}
 		})
 	}
 
