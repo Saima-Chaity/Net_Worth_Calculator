@@ -30,4 +30,15 @@ router.get('/', (req, res) => {
 	res.status(200).send({"data": {"assets": this.totalAssets, "liabilities": this.totalLiabilities, "netWorth": this.netWorth}})
 });
 
+router.post('/calculate', (req, res) => {
+	const {updatedAmount, previousAmount, type} = req.body;
+	if (type === "assets") {
+		this.totalAssets = (this.totalAssets - parseInt(previousAmount)) + parseInt(updatedAmount)
+	} else if (type === "liability") {
+		this.totalLiabilities = (this.totalLiabilities - parseInt(previousAmount)) + parseInt(updatedAmount)
+	}
+	this.netWorth = this.totalAssets - this.totalLiabilities
+	res.status(201).send({"data": {"assets": this.totalAssets, "liabilities": this.totalLiabilities, "netWorth": this.netWorth}})
+});
+
 module.exports = router;

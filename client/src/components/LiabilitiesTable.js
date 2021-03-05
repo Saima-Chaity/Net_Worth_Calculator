@@ -3,7 +3,7 @@ import data from '../constants/data.json';
 
 class LiabilitiesTable extends Component{
   render() {
-		const {totalLiabilities} = this.props;
+		const {totalLiabilities, onInputValueChange} = this.props;
     const {shortTermLiabilities, longTermLiabilities} = data;
     return (
       <div>
@@ -25,8 +25,7 @@ class LiabilitiesTable extends Component{
 								type="number" 
 								className="amount" 
 								value={item.amount} 
-								onKeyUp={(e) => null}
-								onChange={(e) => null} 
+								onChange={(e) => onInputValueChange(e, index, 'shortTermLiabilities')} 
 							/>
 						</li>
 					))}
@@ -46,8 +45,7 @@ class LiabilitiesTable extends Component{
 								type="number" 
 								className="amount" 
 								value={item.amount} 
-								onKeyUp={(e) => null}
-								onChange={(e) => null} 
+								onChange={(e) => onInputValueChange(e, index, 'longTermLiabilities')}  
 							/>
 						</li>
 					))}			
