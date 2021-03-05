@@ -3,6 +3,7 @@ import data from '../constants/data.json';
 
 class LiabilitiesTable extends Component{
   render() {
+		const {totalLiabilities} = this.props;
     const {shortTermLiabilities, longTermLiabilities} = data;
     return (
       <div>
@@ -54,7 +55,7 @@ class LiabilitiesTable extends Component{
         <hr/>
         <div className="headerContainer">
             <span className="category">Total Liabilities</span>
-            <span className="amount">$ 123</span>
+            <span className="amount">$ {totalLiabilities}</span>
         </div>	
       </div>
     )
