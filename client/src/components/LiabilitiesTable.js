@@ -3,7 +3,7 @@ import data from '../constants/data.json';
 
 class LiabilitiesTable extends Component{
   render() {
-		const {totalLiabilities, onInputValueChange} = this.props;
+		const {totalLiabilities, currencySymbol, handleOnFocus, handleRemoveFocus, onInputValueChange} = this.props;
     const {shortTermLiabilities, longTermLiabilities} = data;
     return (
       <div>
@@ -20,11 +20,13 @@ class LiabilitiesTable extends Component{
 						<li key={index}>
 							<span className="category">{item.category}</span>
 							<span className="monthlyPayments">{item.monthlyPayment}</span>
-							<span className="dollarSign">$</span>
+							<span className="dollarSign">{currencySymbol}</span>
 							<input 
 								type="number" 
 								className="amount" 
 								value={item.amount} 
+								onFocus={(e) => handleOnFocus(e, index, 'shortTermLiabilities')}
+								onBlur={(e) => handleRemoveFocus(e, index, 'shortTermLiabilities')}
 								onChange={(e) => onInputValueChange(e, index, 'shortTermLiabilities')} 
 							/>
 						</li>
@@ -40,11 +42,13 @@ class LiabilitiesTable extends Component{
 						<li key={index}>
 							<span className="category">{item.category}</span>
 							<span className="monthlyPayments">{item.monthlyPayment}</span>
-							<span className="dollarSign">$</span>
+							<span className="dollarSign">{currencySymbol}</span>
 							<input 
 								type="number" 
 								className="amount" 
 								value={item.amount} 
+								onFocus={(e) => handleOnFocus(e, index, 'longTermLiabilities')}
+								onBlur={(e) => handleRemoveFocus(e, index, 'longTermLiabilities')}
 								onChange={(e) => onInputValueChange(e, index, 'longTermLiabilities')}  
 							/>
 						</li>
@@ -53,7 +57,7 @@ class LiabilitiesTable extends Component{
         <hr/>
         <div className="headerContainer">
             <span className="category">Total Liabilities</span>
-            <span className="amount">$ {totalLiabilities}</span>
+            <span className="amount">{currencySymbol} {totalLiabilities}</span>
         </div>	
       </div>
     )

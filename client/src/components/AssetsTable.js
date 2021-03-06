@@ -3,7 +3,7 @@ import data from '../constants/data.json';
 
 class AssetsTable extends Component{
   render() {
-		const {totalAssets, onInputValueChange} = this.props;
+		const {totalAssets, currencySymbol, handleOnFocus, handleRemoveFocus, onInputValueChange} = this.props;
     const {cashAndInvestments, longTermAssets} = data;
     return (
       <div>
@@ -13,11 +13,13 @@ class AssetsTable extends Component{
 					{cashAndInvestments.map((item, index) => (
 						<li key={index}>
 							<span className="category">{item.category}</span>
-							<span className="dollarSign">$</span>
+							<span className="dollarSign">{currencySymbol}</span>
 							<input 
 								type="number" 
-								className="amount" 
+								className="amount" 							
 								value={item.amount} 
+								onFocus={(e) => handleOnFocus(e, index, 'cashAndInvestments')}
+								onBlur={(e) => handleRemoveFocus(e, index, 'cashAndInvestments')}
 								onChange={(e) => onInputValueChange(e, index, 'cashAndInvestments')} 
 							/>
 						</li>
@@ -29,11 +31,13 @@ class AssetsTable extends Component{
 					{longTermAssets.map((item, index) => (
 						<li key={index}>
 							<span className="category">{item.category}</span>
-							<span className="dollarSign">$</span>
+							<span className="dollarSign">{currencySymbol}</span>
 							<input 
 								type="number" 
 								className="amount" 
 								value={item.amount} 
+								onFocus={(e) => handleOnFocus(e, index, 'longTermAssets')}
+								onBlur={(e) => handleRemoveFocus(e, index, 'longTermAssets')}
 								onChange={(e) => onInputValueChange(e, index, 'longTermAssets')} 
 							/>
 						</li>
@@ -42,7 +46,7 @@ class AssetsTable extends Component{
 				<hr/>
 				<div className="headerContainer">
 					<span className="category">Total Assets</span>
-					<span className="amount">$ {totalAssets}</span>
+					<span className="amount">{currencySymbol} {totalAssets}</span>
 				</div>	
       </div>
     )

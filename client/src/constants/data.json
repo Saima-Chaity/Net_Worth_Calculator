@@ -2,49 +2,49 @@
   "cashAndInvestments":[
     {
       "category":"Chequing",
-      "amount":"2000"
+      "amount":"2000.00"
     },
     {
       "category":"Saving for Taxes",
-      "amount":"4000"
+      "amount":"4000.00"
     },
     {
       "category":"Rainy Day Fund",
-      "amount":"506"
+      "amount":"506.00"
     },
     {
       "category":"Savings for Fun",
-      "amount":"5000"
+      "amount":"5000.00"
     },
     {
       "category":"Savings for Travel",
-      "amount":"400"
+      "amount":"400.00"
     },
     {
       "category":"Savings for Personal Development",
-      "amount":"200"
+      "amount":"200.00"
     },
     {
       "category":"Investments 1",
-      "amount":"5000"
+      "amount":"5000.00"
     },
     {
       "category":"Investments 2",
-      "amount":"60000"
+      "amount":"60000.00"
     },
     {
       "category":"Investments 3",
-      "amount":"24000"
+      "amount":"24000.00"
     }
   ],
   "longTermAssets":[
     {
       "category":"Primary Home",
-      "amount":"455000"
+      "amount":"455000.00"
     },
     {
       "category":"Second Home",
-      "amount":"1564321"
+      "amount":"1564321.00"
     },
     {
       "category":"Other",
@@ -55,34 +55,34 @@
     {
       "category":"Credit Card 1",
       "monthlyPayment": 200,
-      "amount":"4342"
+      "amount":"4342.00"
     },
     {
       "category":"Credit Card 2",
       "monthlyPayment": 150,
-      "amount":"322"
+      "amount":"322.00"
     }
   ],
   "longTermLiabilities":[
     {
       "category":"Mortgage 1",
       "monthlyPayment": 2000,
-      "amount":"250999"
+      "amount":"250999.00"
     },
     {
       "category":"Mortgage 2",
       "monthlyPayment": 3500,
-      "amount":"632634"
+      "amount":"632634.00"
     },
     {
       "category":"Line 0f Credit",
       "monthlyPayment": 500,
-      "amount":"10000"
+      "amount":"10000.00"
     },
     {
       "category":"Investment Loan",
       "monthlyPayment": 700,
-      "amount":"10000"
+      "amount":"10000.00"
     }
   ]
 }
