@@ -1,0 +1,37 @@
+{
+	"cashAndInvestments":[
+		{
+			"category":"Chequing",
+			"amount":"2000.00"
+		},
+		{
+			"category":"Saving for Taxes",
+			"amount":"4000.00"
+		}
+	],
+	"longTermAssets":[
+		{
+			"category":"Second Home",
+			"amount":"1564321.00"
+		},
+		{
+			"category":"Other",
+			"amount":""
+		}
+	],
+	"shortTermLiabilities":[
+		{
+			"category":"Credit Card 1",
+			"monthlyPayment": 200,
+			"amount":"4342.00"
+		}
+	],
+	"longTermLiabilities":[
+		{
+			"category":"Investment Loan",
+			"monthlyPayment": 700,
+			"amount":"10000.00"
+		}
+	]
+}
+  
