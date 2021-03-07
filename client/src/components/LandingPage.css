@@ -35,3 +35,8 @@
   margin-top: 12px;
   margin-right: 5px;
 }
+
+.error {
+  color: red;
+  text-align: center;
+}

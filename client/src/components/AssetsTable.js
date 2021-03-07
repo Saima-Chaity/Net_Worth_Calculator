@@ -3,7 +3,7 @@ import data from '../constants/data.json';
 
 class AssetsTable extends Component{
   render() {
-		const {totalAssets, currencySymbol, handleOnFocus, handleRemoveFocus, onInputValueChange} = this.props;
+		const {totalAssets, currencySymbol, handleOnFocus, handleRemoveFocus, blockInvalidInput, onInputValueChange} = this.props;
     const {cashAndInvestments, longTermAssets} = data;
     return (
       <div>
@@ -20,6 +20,7 @@ class AssetsTable extends Component{
 								value={item.amount} 
 								onFocus={(e) => handleOnFocus(e, index, 'cashAndInvestments')}
 								onBlur={(e) => handleRemoveFocus(e, index, 'cashAndInvestments')}
+								onKeyDown={blockInvalidInput}
 								onChange={(e) => onInputValueChange(e, index, 'cashAndInvestments')} 
 							/>
 						</li>
@@ -38,6 +39,7 @@ class AssetsTable extends Component{
 								value={item.amount} 
 								onFocus={(e) => handleOnFocus(e, index, 'longTermAssets')}
 								onBlur={(e) => handleRemoveFocus(e, index, 'longTermAssets')}
+								onKeyDown={blockInvalidInput}
 								onChange={(e) => onInputValueChange(e, index, 'longTermAssets')} 
 							/>
 						</li>

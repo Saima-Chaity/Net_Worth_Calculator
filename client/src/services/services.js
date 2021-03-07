@@ -9,7 +9,7 @@ export default {
 			const data = await callResponse.json()
 			return data;
 		} else {
-			return "Something went wrong"
+			return false;
 		}
 	},
 
@@ -33,7 +33,7 @@ export default {
 			const data = await callResponse.json()
 			return data;
 		} else {
-			return "Something went wrong"
+			return false;
 		}
 	},
 
@@ -45,7 +45,7 @@ export default {
 			const data = await callResponse.json()
 			return data;
 		} else {
-			return "Something went wrong"
+			return false;
 		}
 	},
 
@@ -64,7 +64,7 @@ export default {
 			const data = await callResponse.json()
 			return data;
 		} else {
-			return "Something went wrong"
+			return false;
 		}
 	},
 }
