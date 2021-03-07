@@ -9,10 +9,7 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', function(req, res) {
-	res.send({"json": "test route"})
-});
-
 app.use('/api', calculateRoute);
-
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+module.exports = app
