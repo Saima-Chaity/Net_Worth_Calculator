@@ -95,28 +95,22 @@ class LandingPage extends Component{
 		})
 	}
 
-	updateRowValue = (item, conversionRate) => {
+	updateRowValue = (item, type) => {
 		for (let i = 0; i < item.length; i++) {
 			if (validator.validateInput(item[i].amount) == 0) {
 				continue
 			}
-			item[i].amount = (parseFloat(item[i].amount) * conversionRate).toFixed(2)
+			data[type][i].amount = item[i].amount
 		}
 		return item;
 	}
 
-	updateAllRowValue = async (conversionRate) => {
-		const {cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities} = data;
-		this.updateRowValue(cashAndInvestments, conversionRate)
-		this.updateRowValue(longTermAssets, conversionRate)
-		this.updateRowValue(shortTermLiabilities, conversionRate)
-		this.updateRowValue(longTermLiabilities, conversionRate)
-		const response = await services.calculateConversionValue(data)
-		if (response) {
-			this.updateStateValue(response);
-		} else {
-			this.throwError();
-		}
+	updateAllRowValue = ({ data }) => {
+		let {cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities} = data.updatedRows;
+		this.updateRowValue(cashAndInvestments, "cashAndInvestments")
+		this.updateRowValue(longTermAssets, "longTermAssets")
+		this.updateRowValue(shortTermLiabilities, "shortTermLiabilities")
+		this.updateRowValue(longTermLiabilities, "longTermLiabilities")
 	}
 
 	handleDropdownChange = async (e) => {
@@ -127,9 +121,10 @@ class LandingPage extends Component{
 			updatedCurrency: e.target.value,
 			currencySymbol: getSymbolFromCurrency(e.target.value),
 		 }, async () => {
-			const response = await services.getConversionRate(this.state.initialCurrency, this.state.updatedCurrency)
+			const response = await services.calculateConversionValue(this.state.initialCurrency, this.state.updatedCurrency, data)
 			if (response) {
-				this.updateAllRowValue(response.rates[this.state.updatedCurrency]);
+				this.updateAllRowValue(response);
+				this.updateStateValue(response);
 			}
 		})
 	}

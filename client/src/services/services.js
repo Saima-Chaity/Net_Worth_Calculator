@@ -37,19 +37,7 @@ export default {
 		}
 	},
 
-	async getConversionRate(baseCurrency) {
-		const callResponse = await fetch(`https://api.exchangeratesapi.io/latest?base=${baseCurrency}`, {
-			method:'get',
-		})
-		if (callResponse.ok) {
-			const data = await callResponse.json()
-			return data;
-		} else {
-			return false;
-		}
-	},
-
-	async calculateConversionValue(data) {
+	async calculateConversionValue(baseCurrency, selectedCurrency, data) {
 		const requestOption = {
 			method:'post',
 			headers: {
@@ -57,7 +45,7 @@ export default {
 				'Access-Control-Allow-Origin' : '*',
 				'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
 			},
-			body: JSON.stringify({ "updatedData": data }),
+			body: JSON.stringify({ "currency": baseCurrency, "selectedCurrency": selectedCurrency, "dataNeedsToUpdate": data }),
 		}
 		const callResponse = await fetch(BASE_URL + '/currencyconversion', requestOption)
 		if (callResponse.ok) {
