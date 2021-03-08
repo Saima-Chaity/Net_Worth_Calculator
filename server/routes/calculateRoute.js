@@ -1,35 +1,12 @@
 var express = require("express");
 var router = express.Router();
 var fetch = require('node-fetch');
-const data = require('../../client/src/constants/data.json');
+var data = require('../../client/src/constants/data.json');
+var utils = require('../utils/index');
 
 this.totalAssets = 0
 this.totalLiabilities = 0
 this.netWorth = 0
-
-function validateInput(input) {
-	if (isNaN(input) || input == undefined || input == "NaN" || input == "") {
-		return 0;
-	}
-	return input;
-}
-
-function calculateTotal(category1, category2) {
-	let totalValue = 0
-	for(let i = 0; i < category1.length; i++) {
-		if (validateInput(category1[i].amount) == 0) {
-			continue
-		}
-		totalValue += parseFloat(category1[i].amount)
-	} 
-	for(let i = 0; i < category2.length; i++) {
-		if (validateInput(category2[i].amount) == 0) {
-			continue
-		}
-		totalValue += parseFloat(category2[i].amount)
-	}
-	return totalValue;
-}
 
 async function getConversionRate(baseCurrency) {
 	const callResponse = await fetch(`https://api.exchangeratesapi.io/latest?base=${baseCurrency}`, {
@@ -43,29 +20,11 @@ async function getConversionRate(baseCurrency) {
 	}
 }
 
-function updateRowValue (item, conversionRate) {
-	for (let i = 0; i < item.length; i++) {
-		if (validateInput(item[i].amount) == 0) {
-			continue
-		}
-		item[i].amount = (parseFloat(item[i].amount) * conversionRate).toFixed(2)
-	}
-	return item;
-}
-
-function updateAllRowValue (conversionRate, dataNeedsToUpdate) {
-	const { cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities } = dataNeedsToUpdate;
-	updateRowValue(cashAndInvestments, conversionRate)
-	updateRowValue(longTermAssets, conversionRate)
-	updateRowValue(shortTermLiabilities, conversionRate)
-	updateRowValue(longTermLiabilities, conversionRate)
-}
-
 router.get('/', (req, res) => {
 	try {
 		const { cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities } = data;
-		this.totalAssets = calculateTotal(cashAndInvestments, longTermAssets);
-		this.totalLiabilities = calculateTotal(shortTermLiabilities, longTermLiabilities);
+		this.totalAssets = utils.calculateTotal(cashAndInvestments, longTermAssets);
+		this.totalLiabilities = utils.calculateTotal(shortTermLiabilities, longTermLiabilities);
 		this.netWorth = this.totalAssets - this.totalLiabilities
 		res.setHeader('Content-Type', 'application/json');
 		res.status(200).send({"data": {"assets": this.totalAssets, "liabilities": this.totalLiabilities, "netWorth": this.netWorth}})
@@ -77,8 +36,8 @@ router.get('/', (req, res) => {
 router.post('/calculate', (req, res) => {
 	try {
 		let { updatedAmount, previousAmount, type } = req.body;
-		updatedAmount = validateInput(updatedAmount)
-		previousAmount = validateInput(previousAmount)
+		updatedAmount = utils.validateInput(updatedAmount)
+		previousAmount = utils.validateInput(previousAmount)
 		if (type === "assets") {
 			this.totalAssets = (this.totalAssets - parseFloat(previousAmount)) + parseFloat(updatedAmount)
 		} else if (type === "liability") {
@@ -96,9 +55,9 @@ router.post('/currencyconversion', async (req, res) => {
 		const { currency, selectedCurrency, dataNeedsToUpdate } = req.body
 		const { cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities } = dataNeedsToUpdate;
 		let response = await getConversionRate(currency)
-		updateAllRowValue(response.rates[selectedCurrency], dataNeedsToUpdate);
-		this.totalAssets = calculateTotal(cashAndInvestments, longTermAssets);
-		this.totalLiabilities = calculateTotal(shortTermLiabilities, longTermLiabilities);
+		utils.updateAllRowValue(response.rates[selectedCurrency], dataNeedsToUpdate);
+		this.totalAssets = utils.calculateTotal(cashAndInvestments, longTermAssets);
+		this.totalLiabilities = utils.calculateTotal(shortTermLiabilities, longTermLiabilities);
 		this.netWorth = this.totalAssets - this.totalLiabilities;
 		res.setHeader('Content-Type', 'application/json');
 		res.status(201).send({"data": {"assets": this.totalAssets, "liabilities": this.totalLiabilities, "netWorth": this.netWorth, "updatedRows": dataNeedsToUpdate}})

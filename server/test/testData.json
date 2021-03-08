@@ -6,31 +6,27 @@
 		},
 		{
 			"category":"Saving for Taxes",
-			"amount":"4000.00"
+			"amount":""
 		}
 	],
 	"longTermAssets":[
 		{
-			"category":"Second Home",
-			"amount":"1564321.00"
-		},
-		{
 			"category":"Other",
-			"amount":""
+			"amount":null
 		}
 	],
 	"shortTermLiabilities":[
 		{
 			"category":"Credit Card 1",
 			"monthlyPayment": 200,
-			"amount":"4342.00"
+			"amount":"NaN"
 		}
 	],
 	"longTermLiabilities":[
 		{
 			"category":"Investment Loan",
 			"monthlyPayment": 700,
-			"amount":"10000.00"
+			"amount":"100.00"
 		}
 	]
 }

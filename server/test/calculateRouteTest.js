@@ -1,7 +1,10 @@
+const { expect } = require('chai');
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let should = chai.should();
+var fetch = require('node-fetch');
 let server = require('../server');
+const testData = require('./testData.json');
 
 chai.use(chaiHttp);
 
@@ -9,7 +12,7 @@ describe('Calculate amount', () => {
    /*
   * Test the /api route
   */
-  describe('/GET json data', () => {
+  describe('Get data from json file and calculate initial total', () => {
 		it('it should get data.json file', (done) => {
 			chai.request(server)
 				.get('/api')
@@ -28,9 +31,9 @@ describe('Calculate amount', () => {
 			chai.request(server)
 				.get('/api')
 				.end((err, res) => {
-					res.body.data.assets.should.not.eql(null);
-					res.body.data.liabilities.should.not.eql(null);
-					res.body.data.netWorth.should.not.eql(null);
+					res.body.data.assets.should.be.eql(2120427);
+					res.body.data.liabilities.should.be.eql(908297);
+					res.body.data.netWorth.should.be.eql(1212130);
 					done();
 				});
 		});
@@ -39,8 +42,8 @@ describe('Calculate amount', () => {
   /*
   * Test the /api/calculate route
   */
-  describe('/POST data', () => {
-		it('it should return calulated value', (done) => {
+  describe('Post data for edited row', () => {
+		it('it should return calulated value for type assets', (done) => {
 			let data = {
 				updatedAmount: "1000",
 				previousAmount: "500",
@@ -52,15 +55,17 @@ describe('Calculate amount', () => {
 			.end((err, res) => {
 				res.should.have.status(201);
 				res.body.data.assets.should.not.eql(null);
+				res.body.data.liabilities.should.not.eql(null);
+				res.body.data.netWorth.should.not.eql(null);
 				done();
 			});
 		});
 
-		it('it should handle a invalid input', (done) => {
+		it('it should handle a invalid input and result should not be null', (done) => {
 			let data = {
 				updatedAmount: "",
 				previousAmount: "e",
-				type: "assets"
+				type: "liability"
 			}
 			chai.request(server)
 			.post('/api/calculate')
@@ -68,6 +73,8 @@ describe('Calculate amount', () => {
 			.end((err, res) => {
 				res.should.have.status(201);
 				res.body.data.assets.should.not.eql(null);
+				res.body.data.liabilities.should.not.eql(null);
+				res.body.data.netWorth.should.not.eql(null);
 				done();
 			});
 		});
@@ -76,62 +83,31 @@ describe('Calculate amount', () => {
 	/*
   * Test the /api/currencyconversion route
   */
-	describe('/Calculate data after currency conversion' , () => {
+	describe('Calculate data after currency conversion' , () => {
 		const data = {
 			"currency": "CAD",
 			"selectedCurrency": "EUR",
-			"dataNeedsToUpdate": {
-				"cashAndInvestments":[
-					{
-						"category":"Chequing",
-						"amount":"2000.00"
-					},
-					{
-						"category":"Saving for Taxes",
-						"amount":undefined
-					}
-				],
-				"longTermAssets":[
-					{
-						"category":"Other",
-						"amount":null
-					}
-				],
-				"shortTermLiabilities":[
-					{
-						"category":"Credit Card 1",
-						"monthlyPayment": 200,
-						"amount":"NaN"
-					}
-				],
-				"longTermLiabilities":[
-					{
-						"category":"Investment Loan",
-						"monthlyPayment": 700,
-						"amount":"100.00"
-					}
-				]
-			}
+			"dataNeedsToUpdate": testData,
 		}
-		it('it should handle a invalid data in payload', (done) => {
+		
+		it('it should call conversion API', async () => {
+			const callResponse = await fetch(`https://api.exchangeratesapi.io/latest?base=${data.currency}`, {
+				method:'get',
+			})
+			const response = await callResponse.json()
+			expect(response).to.haveOwnPropertyDescriptor("rates")
+		});
+		
+		it('result should not be null', (done) => {
 			chai.request(server)
 			.post('/api/currencyconversion')
 			.send(data)
 			.end((err, res) => {
 				res.should.have.status(201);
-				res.body.data.liabilities.should.not.eql(null);
-				done();
-			});
-		});
-
-		it('it should calculate updated data', (done) => {
-			chai.request(server)
-			.post('/api/currencyconversion')
-			.send(data)
-			.end((err, res) => {
 				res.body.data.assets.should.not.eql(null);
 				res.body.data.liabilities.should.not.eql(null);
 				res.body.data.netWorth.should.not.eql(null);
+				res.body.data.updatedRows.should.be.a('object')
 				done();
 			});
 		});
