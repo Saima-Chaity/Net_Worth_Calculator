@@ -9,7 +9,8 @@ import validator from '../utils/validator';
 import formatter from '../utils/formatter';
 import './LandingPage.css'
 
-const isNumberType = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+const IsNumberType = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+const AllowedKeycode = [190, 8, 37, 39, 46]
 
 class LandingPage extends Component{
 	constructor(props) {
@@ -71,6 +72,7 @@ class LandingPage extends Component{
 			data[type][index]["amount"] = formatter.formatInput(parseFloat(currentValue))
 			let prevValue = formatter.removeCommas(this.state.prevValue)
 			let inputValue = formatter.removeCommas(this.state.inputValue)
+			console.log(inputValue, prevValue)
 			const response = await services.calculateUpdatedValue(inputValue, prevValue, this.state.currentType)
 			if (response) {
 				this.updateStateValue(response);
@@ -80,10 +82,10 @@ class LandingPage extends Component{
 		}
 	}
 
-	// Handles invalid input and allow only dot, backspace and numbers
+	// Handles invalid input and allow only dot, backspace, delete, left, right arrow and numbers
 	handleInvalidInput = (e) => {
 		const keyCode = (e.which) ? e.which : e.keyCode;
-		if (keyCode !== 190 && keyCode !== 8 && !isNumberType.includes(e.key)) {
+		if (!AllowedKeycode.includes(keyCode) && !IsNumberType.includes(e.key)) {
 			e.preventDefault()
 		}
 	}
@@ -91,6 +93,7 @@ class LandingPage extends Component{
 	// Handles input change event and check dot count before any changes
 	onInputChange = (e, index, type) => {
 		let inputValue = e.target.value
+		console.log(inputValue)
 		let dotCount = 	(inputValue.toString().match(/\./g) || []).length
 		if (dotCount <= 1) {
 			let updatedAmount = 0
