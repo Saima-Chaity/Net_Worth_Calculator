@@ -1,9 +1,14 @@
 # Net_Worth_Calculator
 This is an application to calculate net worth, assets and liabilities. For this application, I have used JavaScript framework (React) in frontend UI and Node.js with Express to handle RESTFul API requests.
 
-## Here is the Architecture Diagram of the application
+## Architecture Diagram of the application
 
 ![Architecture_diagram (2)](https://user-images.githubusercontent.com/31779751/110423967-ddb37300-8056-11eb-9f25-5e4dceabeb30.png)
+
+## Sequence Diagram of the application
+
+![Sequence_diagram](https://user-images.githubusercontent.com/31779751/110425092-a80f8980-8058-11eb-8bff-4c16359ad519.png)
+
 
 ## Run React Client 
 
