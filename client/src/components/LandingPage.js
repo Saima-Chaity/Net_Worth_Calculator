@@ -72,7 +72,6 @@ class LandingPage extends Component{
 			data[type][index]["amount"] = formatter.formatInput(parseFloat(currentValue))
 			let prevValue = formatter.removeCommas(this.state.prevValue)
 			let inputValue = formatter.removeCommas(this.state.inputValue)
-			console.log(inputValue, prevValue)
 			const response = await services.calculateUpdatedValue(inputValue, prevValue, this.state.currentType)
 			if (response) {
 				this.updateStateValue(response);
