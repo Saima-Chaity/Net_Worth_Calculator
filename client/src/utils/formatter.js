@@ -9,5 +9,11 @@ export default {
 			minimumFractionDigits: 2,
 			maximumFractionDigits: 2
 		})
+	},
+
+	removeCommas: function (number) {
+		number = number.toString();
+		number = number.replace(/\,/g,'');
+		return number;
 	}
 }

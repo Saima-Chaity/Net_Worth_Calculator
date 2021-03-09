@@ -1,24 +1,12 @@
 var express = require("express");
 var router = express.Router();
-var fetch = require('node-fetch');
-var data = require('../../client/src/constants/data.json');
+var data = require('../../data/data.json');
 var utils = require('../utils/index');
+var services = require('../services/index');
 
 this.totalAssets = 0
 this.totalLiabilities = 0
 this.netWorth = 0
-
-async function getConversionRate(baseCurrency) {
-	const callResponse = await fetch(`https://api.exchangeratesapi.io/latest?base=${baseCurrency}`, {
-		method:'get',
-	})
-	if (callResponse.ok) {
-		const data = await callResponse.json()
-		return data;
-	} else {
-		return false;
-	}
-}
 
 router.get('/', (req, res) => {
 	try {
@@ -54,7 +42,7 @@ router.post('/currencyconversion', async (req, res) => {
 	try {
 		const { currency, selectedCurrency, dataNeedsToUpdate } = req.body
 		const { cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities } = dataNeedsToUpdate;
-		let response = await getConversionRate(currency)
+		let response = await services.getConversionRate(currency)
 		utils.updateAllRowValue(response.rates[selectedCurrency], dataNeedsToUpdate);
 		this.totalAssets = utils.calculateTotal(cashAndInvestments, longTermAssets);
 		this.totalLiabilities = utils.calculateTotal(shortTermLiabilities, longTermLiabilities);

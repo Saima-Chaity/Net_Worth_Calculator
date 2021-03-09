@@ -9,7 +9,7 @@ import validator from '../utils/validator';
 import formatter from '../utils/formatter';
 import './LandingPage.css'
 
-const InvalidChar = ["e", "E", "-", "+"];
+const isNumberType = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 class LandingPage extends Component{
 	constructor(props) {
@@ -55,6 +55,7 @@ class LandingPage extends Component{
 
 	handleOnFocus = (e, index, type) => {
 		let prevAmount = data[type][index]["amount"]
+		prevAmount = formatter.removeCommas(prevAmount)
 		this.setState({ 
 			prevValue: (validator.validateInput(prevAmount) == 0) ? 0 : prevAmount
 		})
@@ -62,9 +63,12 @@ class LandingPage extends Component{
 
 	handleKeyUp = async (e, index, type) => {
 		let currentValue = data[type][index]["amount"]
-		data[type][index]["amount"] = parseFloat(currentValue).toFixed(2)	
 		if (this.state.inputChanged) {
-			const response = await services.calculateUpdatedValue(this.state.inputValue, this.state.prevValue, this.state.currentType)
+			currentValue = formatter.removeCommas(currentValue)
+			data[type][index]["amount"] = formatter.formatInput(parseFloat(currentValue))
+			let prevValue = formatter.removeCommas(this.state.prevValue)
+			let inputValue = formatter.removeCommas(this.state.inputValue)
+			const response = await services.calculateUpdatedValue(inputValue, prevValue, this.state.currentType)
 			if (response) {
 				this.updateStateValue(response);
 			} else {
@@ -74,25 +78,31 @@ class LandingPage extends Component{
 	}
 
 	handleInvalidInput = (e) => {
-		if (InvalidChar.includes(e.key)) {
+		const keyCode = (e.which) ? e.which : e.keyCode;
+		// Allow only dot, backspace and numbers
+		if (keyCode !== 190 && keyCode !== 8 && !isNumberType.includes(e.key)) {
 			e.preventDefault()
 		}
 	}
 
 	onInputChange = (e, index, type) => {
 		let inputValue = e.target.value
-		let updatedAmount = 0
-		if (inputValue == "") {
-			data[type][index]["amount"] = ""
-		} else {
-			updatedAmount = parseFloat(inputValue) ? inputValue : 0
-			data[type][index]["amount"] = updatedAmount
+		// There can be only one dot
+		let dotCount = 	(inputValue.toString().match(/\./g) || []).length
+		if (dotCount <= 1) {
+			let updatedAmount = 0
+			if (inputValue == "") {
+				data[type][index]["amount"] = ""
+			} else {
+				updatedAmount = (inputValue != "") ? inputValue : "0"  
+				data[type][index]["amount"] = inputValue
+			}
+			this.setState({ 
+				inputChanged: true,
+				inputValue: updatedAmount,
+				currentType: (type === "cashAndInvestments" || type === "longTermAssets") ? "assets" : "liability"
+			})
 		}
-		this.setState({ 
-			inputChanged: true,
-			inputValue: updatedAmount,
-			currentType: (type === "cashAndInvestments" || type === "longTermAssets") ? "assets" : "liability"
-		})
 	}
 
 	updateRowValue = (item, type) => {
@@ -100,7 +110,7 @@ class LandingPage extends Component{
 			if (validator.validateInput(item[i].amount) == 0) {
 				continue
 			}
-			data[type][i].amount = item[i].amount
+			data[type][i].amount = formatter.formatInput(parseFloat(item[i].amount))
 		}
 		return item;
 	}

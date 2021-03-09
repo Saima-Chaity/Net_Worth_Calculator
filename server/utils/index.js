@@ -5,6 +5,12 @@ exports.validateInput = function (input) {
 	return input;
 }
 
+exports.removeCommas = function (number) {
+	number = number.toString();
+	number = number.replace(/\,/g,'');
+	return number;
+}
+
 exports.calculateTotal = function (category1, category2) {
 	let totalValue = 0
 	for(let i = 0; i < category1.length; i++) {
@@ -24,6 +30,7 @@ exports.calculateTotal = function (category1, category2) {
 
 exports.updateRowValue = function (item, conversionRate) {
 	for (let i = 0; i < item.length; i++) {
+		item[i].amount = exports.removeCommas(item[i].amount)
 		if (exports.validateInput(item[i].amount) == 0) {
 			continue
 		}

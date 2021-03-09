@@ -15,7 +15,7 @@ class AssetsTable extends Component{
 							<span className="category">{item.category}</span>
 							<span className="dollarSign">{currencySymbol}</span>
 							<input 
-								type="number" 
+								type="text" 
 								className="amount" 							
 								value={item.amount} 
 								onFocus={(e) => handleOnFocus(e, index, 'cashAndInvestments')}
@@ -34,7 +34,7 @@ class AssetsTable extends Component{
 							<span className="category">{item.category}</span>
 							<span className="dollarSign">{currencySymbol}</span>
 							<input 
-								type="number" 
+								type="text" 
 								className="amount" 
 								value={item.amount} 
 								onFocus={(e) => handleOnFocus(e, index, 'longTermAssets')}

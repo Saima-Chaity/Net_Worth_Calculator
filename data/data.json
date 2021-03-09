@@ -2,11 +2,11 @@
   "cashAndInvestments":[
     {
       "category":"Chequing",
-      "amount":"2,000.00"
+      "amount":"2000.00"
     },
     {
       "category":"Saving for Taxes",
-      "amount":"4,000.00"
+      "amount":"4000.00"
     },
     {
       "category":"Rainy Day Fund",
@@ -14,7 +14,7 @@
     },
     {
       "category":"Savings for Fun",
-      "amount":"5,000.00"
+      "amount":"5000.00"
     },
     {
       "category":"Savings for Travel",
@@ -26,25 +26,25 @@
     },
     {
       "category":"Investments 1",
-      "amount":"5,000.00"
+      "amount":"5000.00"
     },
     {
       "category":"Investments 2",
-      "amount":"60,000.00"
+      "amount":"60000.00"
     },
     {
       "category":"Investments 3",
-      "amount":"24,000.00"
+      "amount":"24000.00"
     }
   ],
   "longTermAssets":[
     {
       "category":"Primary Home",
-      "amount":"455,000.00"
+      "amount":"455000.00"
     },
     {
       "category":"Second Home",
-      "amount":"1,564,321.00"
+      "amount":"1564321.00"
     },
     {
       "category":"Other",
@@ -55,7 +55,7 @@
     {
       "category":"Credit Card 1",
       "monthlyPayment": 200,
-      "amount":"4,342.00"
+      "amount":"4342.00"
     },
     {
       "category":"Credit Card 2",
@@ -67,22 +67,22 @@
     {
       "category":"Mortgage 1",
       "monthlyPayment": 2000,
-      "amount":"250,999.00"
+      "amount":"250999.00"
     },
     {
       "category":"Mortgage 2",
       "monthlyPayment": 3500,
-      "amount":"632,634.00"
+      "amount":"632634.00"
     },
     {
       "category":"Line 0f Credit",
       "monthlyPayment": 500,
-      "amount":"10,000.00"
+      "amount":"10000.00"
     },
     {
       "category":"Investment Loan",
       "monthlyPayment": 700,
-      "amount":"10,000.00"
+      "amount":"10000.00"
     }
   ]
 }
