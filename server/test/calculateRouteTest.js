@@ -26,17 +26,6 @@ describe('Calculate amount', () => {
 					done();
 				});
 		});
-
-		it('it should calculate total from data.json file and result can not be null', (done) => {
-			chai.request(server)
-				.get('/api')
-				.end((err, res) => {
-					res.body.data.assets.should.be.eql(2120427);
-					res.body.data.liabilities.should.be.eql(908297);
-					res.body.data.netWorth.should.be.eql(1212130);
-					done();
-				});
-		});
   });
 
   /*

@@ -49,10 +49,12 @@ class LandingPage extends Component{
 		})
 	}
 
+	// Generic error
 	throwError = () => {
 		this.setState({ errorMessage: "Something went wrong!" })
 	}
 
+	// This is needed to get the value before edit
 	handleOnFocus = (e, index, type) => {
 		let prevAmount = data[type][index]["amount"]
 		prevAmount = formatter.removeCommas(prevAmount)
@@ -61,6 +63,7 @@ class LandingPage extends Component{
 		})
 	}
 
+	// This is used to format the number and make an API request with updated value
 	handleKeyUp = async (e, index, type) => {
 		let currentValue = data[type][index]["amount"]
 		if (this.state.inputChanged) {
@@ -77,17 +80,17 @@ class LandingPage extends Component{
 		}
 	}
 
+	// Handles invalid input and allow only dot, backspace and numbers
 	handleInvalidInput = (e) => {
 		const keyCode = (e.which) ? e.which : e.keyCode;
-		// Allow only dot, backspace and numbers
 		if (keyCode !== 190 && keyCode !== 8 && !isNumberType.includes(e.key)) {
 			e.preventDefault()
 		}
 	}
 
+	// Handles input change event and check dot count before any changes
 	onInputChange = (e, index, type) => {
 		let inputValue = e.target.value
-		// There can be only one dot
 		let dotCount = 	(inputValue.toString().match(/\./g) || []).length
 		if (dotCount <= 1) {
 			let updatedAmount = 0
@@ -105,6 +108,7 @@ class LandingPage extends Component{
 		}
 	}
 
+	// Format each editable row value
 	updateRowValue = (item, type) => {
 		for (let i = 0; i < item.length; i++) {
 			if (validator.validateInput(item[i].amount) == 0) {
@@ -115,6 +119,7 @@ class LandingPage extends Component{
 		return item;
 	}
 
+	// Update all row values with the response from API
 	updateAllRowValue = ({ data }) => {
 		let {cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities} = data.updatedRows;
 		this.updateRowValue(cashAndInvestments, "cashAndInvestments")
@@ -123,6 +128,7 @@ class LandingPage extends Component{
 		this.updateRowValue(longTermLiabilities, "longTermLiabilities")
 	}
 
+	// Handles dropdown select event
 	handleDropdownChange = async (e) => {
 		if (this.state.updatedCurrency !== "") {
 			this.setState({ initialCurrency: this.state.updatedCurrency })

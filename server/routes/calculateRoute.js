@@ -8,6 +8,7 @@ this.totalAssets = 0
 this.totalLiabilities = 0
 this.netWorth = 0
 
+// Route returns initial totals
 router.get('/', (req, res) => {
 	try {
 		const { cashAndInvestments, longTermAssets, shortTermLiabilities, longTermLiabilities } = data;
@@ -21,6 +22,7 @@ router.get('/', (req, res) => {
 	}
 });
 
+// Route returns totals after an account line is edited
 router.post('/calculate', (req, res) => {
 	try {
 		let { updatedAmount, previousAmount, type } = req.body;
@@ -38,6 +40,7 @@ router.post('/calculate', (req, res) => {
 	}
 });
 
+// Route makes a call to get currency rate and update all the values in each editable row and calculate totals
 router.post('/currencyconversion', async (req, res) => {
 	try {
 		const { currency, selectedCurrency, dataNeedsToUpdate } = req.body

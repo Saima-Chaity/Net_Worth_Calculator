@@ -2,7 +2,7 @@
 	"cashAndInvestments":[
 		{
 			"category":"Chequing",
-			"amount":"2000.00"
+			"amount":"2,000.00"
 		},
 		{
 			"category":"Saving for Taxes",
@@ -12,14 +12,14 @@
 	"longTermAssets":[
 		{
 			"category":"Other",
-			"amount":null
+			"amount":"NaN"
 		}
 	],
 	"shortTermLiabilities":[
 		{
 			"category":"Credit Card 1",
 			"monthlyPayment": 200,
-			"amount":"NaN"
+			"amount": "."
 		}
 	],
 	"longTermLiabilities":[

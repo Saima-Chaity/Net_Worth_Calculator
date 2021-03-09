@@ -1,6 +1,10 @@
 exports.validateInput = function (input) {
-	if (isNaN(input) || input == undefined || input == "NaN" || input == "") {
-			return 0;
+	if (input == null || input == undefined || input == "NaN" || input == "") {
+		return 0;
+	}
+	input = exports.removeCommas(input)
+	if (isNaN(input)) {
+		return 0;
 	}
 	return input;
 }
@@ -17,12 +21,14 @@ exports.calculateTotal = function (category1, category2) {
 		if (exports.validateInput(category1[i].amount) == 0) {
 			continue
 		}
+		category1[i].amount = exports.removeCommas(category1[i].amount)
 		totalValue += parseFloat(category1[i].amount)
 	} 
 	for(let i = 0; i < category2.length; i++) {
 		if (exports.validateInput(category2[i].amount) == 0) {
 			continue
 		}
+		category2[i].amount = exports.removeCommas(category2[i].amount)
 		totalValue += parseFloat(category2[i].amount)
 	}
 	return totalValue;

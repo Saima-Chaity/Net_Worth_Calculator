@@ -1,6 +1,7 @@
 const BASE_URL = "http://localhost:5000/api";
 
 export default {
+	// Get initial total for assets, liabilities and net worth
 	async getTotalPrices() {
 		const callResponse = await fetch(BASE_URL, {
 			method:'get',
@@ -13,6 +14,7 @@ export default {
 		}
 	},
 
+	// Making a post request when any account line is edited
 	async calculateUpdatedValue(currentAmount, prevAmount, currentType) {
 		const post_data = JSON.stringify({
 			"updatedAmount": (currentAmount) ? currentAmount : 0, 
@@ -37,6 +39,7 @@ export default {
 		}
 	},
 
+	// Making a post request when new currency is selected from dropdown
 	async calculateConversionValue(baseCurrency, selectedCurrency, data) {
 		const requestOption = {
 			method:'post',
